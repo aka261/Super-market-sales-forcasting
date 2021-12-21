@@ -1,0 +1,693 @@
+<P><BR>
+<CENTER>
+<FONT SIZE = 4, COLOR = "#2C32C3">
+<B>ALY6000 Data Analytics Project</B>
+<BR><B>Northeastern University</B>
+<BR> Akash Tirupapuliyur Srikanth
+<BR>Date: 18 December,2021
+<P>Project Report
+</FONT>
+</CENTER>
+
+<P><BR>
+
+```{r}
+library(readr)
+library(tidyverse)
+library(dplyr)
+library(knitr)
+library(RColorBrewer)
+library(knitr)
+library(DT)
+library(corrplot)
+library(scales)
+library(caTools)
+library(stargazer)
+library(ggcorrplot)
+## Datasets 
+sales = read.csv("C:/Users/Akash T S/Desktop/train.csv")
+```
+
+<P><BR>
+<FONT SIZE = 4, COLOR = <"#A11515"></B>
+INTRODUCTION
+</B></FONT>
+
+What is Data analysis?
+
+Data analysis involves inspecting, cleaning, transforming the useful data which can be used for decision - making.
+
+TOP 5 STEPS IN THE DATA ANALYSIS PROCESS 
+
+1) Asking the right questions 
+
+Before collecting data, we need to find out what we need to do with that data. We need to understand the business problem or do hypothesis testing that can be solved with data. For example, a company selling specific products wants to boost sales. The company will either conduct a survey or see whether the products are sold after an advertisement. With the help of defining business problems, it will be easier to decide what data is needed. 
+
+2) Data collection 
+
+After defining business problems, the next step is to collect the right data which can solve that problem. For example, the data can be within an organization like employee review results. The data can be collected from outside of organizations like customer survey data. 
+
+3) Data cleaning 
+
+After collecting and combining data from various sources, the raw data cannot be used for data analysis. We may find some flaws in the data such as missing values, different measurements, etc. To remove these flaws, we must clean data which helps in easy analysis of data. This is a major step because the accuracy of the analysis depends on the quality of the data. Some of the data cleaning tasks are: 
+
+  1. Removing outliers
+  
+  2. Removing unnecessary data points 
+
+  3. Removing duplicates from data 
+
+ 
+
+4) Analyzing the data 
+
+Once the data cleaning is done, it is time to analyze the data and bring meaningful insights from the data. At this step, we begin to manipulate the data and use various techniques and methods of data analysis. We also find various hidden patterns and relationships to get a great picture of data. Several types of data analysis techniques are: 
+
+  1. Descriptive statistics
+  
+  2. Diagnostic statistics 
+
+  3. Predictive statistics 
+
+  4. Prescriptive statistics 
+
+ 
+
+5) Interpreting the results 
+
+After meaningful insights are drawn, the next step is the graphical representation of data by ting visualizations like charts and graphs. Just a graphical presentation is not enough to give out results. We should be able to present to stakeholders in a way they can understand. This can be done by data storytelling.  
+
+REFERENCE: 
+
+Erdelyi, L. (2021). THE FIVE STAGES OF DATA ANALYSIS. Retrieved from lighthouselabs:
+
+https://www.lighthouselabs.ca/en/blog/the-five-stages-of-data-analysis
+
+
+
+What is Hypothesis Testing?
+
+Hypothesis testing is a method of determining whether or not the results of a survey or experiment are relevant. We are trying to determine whether our results are valid by calculating the chances that they happened by chance. If your results were obtained by accident, the experiment will not be repeatable and thus will be of little value.
+
+What is the Null Hypothesis?
+
+The Null Hypothesis has always been an acknowledged fact throughout the history of science.  Some examples of null hypotheses that are widely accepted true are:
+
+DNA has a double helix structure.
+
+The solar system has eight planets(excluding Pluto)
+
+What is an Alternative Hypothesis?
+
+An alternative hypothesis is one in which the researchers predict between two or more variables, the observed pattern of data is not due to chance. This is consistent with scientific principles, which state that empirical evidence must be provided to invalidate the null hypothesis before an alternate hypothesis can be supported. 
+
+Errors in Hypothesis Testing
+
+A type 1 error in statistics is a false positive result, whereas a type 2 error is a false negative result. 
+
+Example of Type 1 and Type 2 error
+
+ You decided to get tested for COVID - 19 based on mild symptoms. These are two errors that could occur:
+
+Type 1 error(false positive) - The test result says you have coronavirus, but actually don't.
+
+Type 2 error(false negative) - The test result says you don't have coronavirus, but actually you have coronavirus.
+
+
+<P><BR>
+<FONT SIZE = 4, COLOR = <"#4036D2"></B>
+ANALYSIS SECTION
+</B></FONT>
+
+Description of the dataset
+
+This dataset is about Superstore Sales in USA. This dataset contains information on sales for four years. This dataset has 9800 rows and 18 columns. This dataset contains categorical, numerical and date columns. There is only one numerical column. There are two date columns. The rest of the columns are categorical in nature. The folowing columns are:
+
+1. Row.ID - int - There are 9800 Row IDS
+2. Order.ID - chr - There are 4922 unique Order IDS
+3. Order.Date - chr - There are 1230 unique dates
+4. Ship.Date - chr - There are 1326 unique dates
+5. Ship Mode - chr - Type of shipment mode
+6. Customer.ID - chr There are 793 Customer IDS
+7. Customer.Name - chr- There are 793 unique names
+8. Segment - chr- Type of product segment
+9. Country - chr - Name of the country
+10. City - chr - Name of the cities
+11. State - chr - Name of the states
+12. Postal.Code - chr - Postal codes
+13. Region - chr - Name of the regions
+14. Product.ID - chr - Product IDS
+15. Category - chr - Category of products
+16. Product.Name - chr Name of the products
+17. Sales - int - Amount of sales for each product
+18. Profit - int - Profit from each product
+
+Data - Preprocessing
+```{r}
+sales_subset = sales %>% select(Ship.Mode,Segment,Country,City,State,Region, Category, Sub.Category,Sales,Profit)
+```
+
+I have taken subset of the sales dataset which contains columns where relationship can be shown with sales.The columns are:
+1. Ship.Mode
+2. Segment
+3. Country
+4. City
+5. State
+6. Region
+7. Category
+8. Sub.Category
+9. Sales
+10. Profit
+
+
+Problem Statement  - I would like to know the relationship between sales and profit.
+
+Solution - I will be using Scatter Plot and correlation to find relationship between sales and profit.
+
+I am going to conduct a correlation test for sales and profit variables.
+
+Null Hypothesis = The true correlation between sales and profit is equal to 0
+
+Alternate Hypothesis = The true correlation between sales and profit is not equal to zero 
+
+```{r}
+cor.test(sales_subset$Sales,sales_subset$Profit)
+```
+
+
+Observations:
+
+Sample Correlation = 0.782
+
+Confidence Interval = 0.95 percent
+
+P-value = < 2.2e-16
+
+degree of freedom = 9798
+
+Dependent Variable = Sales
+
+Independent Variable = Profit
+
+Explanation:
+
+We are going to focus on p_value which is lesser than 0.05 percent. In this case, we have to reject null hypothesis and go with alternate hypothesis. The true correlation between sales and profit is not equal to zero. We are 95 percent confident that the true correlation between sales and profit fall between 0.774 and 0.789. 
+
+
+Correlation Plot of numerical variables
+
+```{r}
+numerical = sales %>% select(Profit, Sales)
+ggcorrplot(cor(numerical))
+```
+Observations:
+
+1. There is strong correlation between sales and profit.
+
+2. The correlation is positive.
+
+3. The profit increases as the sales increase.
+
+
+Scatter Plot of Profit and Sales
+```{r}
+par(mfcol = c(1,2))
+ggplot(data = sales_subset, aes(x = Profit, y = Sales, color = Region)) + geom_point()+ geom_smooth(method = "lm")+ labs(title = "Scatter Plot of Sales and Profit")
+
+ggplot(data = sales_subset, aes(x = Profit, y = Sales)) + geom_point()+ geom_smooth(method = "lm")+ labs(title = "Scatter Plot of Sales and Profit")
+
+```
+
+Observations:
+
+1. The above graph shows relationship between sales and profit.
+
+2. There is strong relationship between sales and profit and they are positively correlated.
+
+3. As the sales are increasing the profits are also increasing.
+
+4. The highest sales and profits have been achieved by East Region followed by Central Region.
+
+5. The lowest sales and profits have been achieved by West Region.
+
+6. There are little outliers which are far away from other data points.
+
+
+Regression Testing between sales and Profits
+
+Dependent Variable = Sales
+
+Independent Variable = Profits
+
+```{r}
+lm_profit_sales = lm(Sales~Profit, data = sales_subset)
+summary(lm_profit_sales)
+stargazer(lm_profit_sales,type = "text")
+```
+Explanation:
+
+1. The above linear model shows relationship between sales and Profit.
+
+2. The summary of residuals shows the distance from the data points to the fitted line. 
+
+3. The estimated slope for profit is 6.17 and the intercept is 66.69. (Intercept + slope *weight)
+
+4. The p-value for weight is less than 0.05 percent, which means it has strong statistical significance with sales.
+
+5. Profits will give us reliable guess for sales.
+
+6. The multiple R-square is 0.61 which means profits can explain 61 percent of the variation in sales.
+
+
+Hypothesis Testing for Sales and Sub-category
+
+Independent Variable - Sub-category
+
+Dependent Variable - Sales
+
+Null hypothesis - There is no statistical significance between sales and sub-category.
+
+Alternate hypothesis - There is statistical significance between sales and sub-category.
+
+
+```{r}
+x = aov(Sales~Sub.Category, data = sales_subset)
+summary(x)
+```
+Explanation:
+
+We will focus on P-value which is below 0.05 percent. We have to reject null hypothesis and go with alternate hypothesis that there is statistical significance between sales and product sub-category.
+
+
+bar graph of Sub Category and Sales
+```{r}
+ggplot(data = sales_subset, aes(x = Sub.Category, y = Sales, fill = Sub.Category)) + geom_bar(stat = "identity") + theme(axis.text.x = element_text(angle = 90))+ labs(title = "Barplot on Sub category and Sales")+ xlab("Product Sub Category") + ylab("Sales")+ scale_y_continuous(labels = comma)
+```
+
+Observations:
+
+1.  The above bar graph shows relationship between product sub category and sales 
+  
+2.  The highest sales has been achieved by phones and chairs sub categories.
+
+3.  The lowest sales has  been achieved by Art, Envelopes, Fasteners,labels and Supplies.
+
+4.  Most of the product sub categories have achieved sales above $100,000.
+
+
+Regression Testing between sales and product sub- category
+
+Dependent variable - Sales
+
+Independent variable - sub-category
+
+```{r}
+sales_subset$Sub.Category =as.factor(sales_subset$Sub.Category)
+lm_sub_sales = lm(Sales~Sub.Category, data = sales_subset)
+summary(lm_sub_sales)
+stargazer(lm_sub_sales, type = "text")
+```
+ 
+Explanation:
+
+1. In the above linear model we can see that there are lot of product sub categories which have p - value less than 0.05 percent.
+
+2. The categories except supplies, Appliances have good statistical significance which show good relationship with sales.
+
+3. The estimated slope of the sub category can be noticed under the heading ESTIMATED and intercept is 217.8.
+
+4. These categories which give reliable guess on sales.
+
+5. The multiple R- squared is 19 percent which means sub category can explain 19 percent variation in sales.
+
+
+
+Hypothesis Testing for sales and Segment
+
+Independent variable - Segment
+
+Dependent variable - Sales
+
+Null Hypothesis - There is no statistical significance between sales and segment
+
+Alternate Hypothesis - There is statistical significance between sales and segment
+
+
+```{r}
+y = aov(Sales~Segment, data = sales_subset)
+summary(y)
+```
+
+Explanation:
+
+We will focus on p-value which is higher than 0.05 percent. We fail to reject null hypothesis and accept null hypothesis that there is no statistical significance between sales and segment.
+
+Regression testing between sales and segment
+
+```{r}
+sales_subset$Segment = as.factor(sales_subset$Segment)
+lm_seg_sales = lm(Sales~Segment,data = sales_subset)
+summary(lm_seg_sales)
+stargazer(lm_seg_sales, type = "text")
+```
+
+Explanation:
+
+1.The intercept for segment is 225.066 and slope for segment sub category is 8.085 and 18.338.
+
+2. The p-value is 0.577 and 0.291 which is greater than 0.05 percent which means segment is not statistically significant to the sales.
+
+3. The multiple R-squared is 0.0001199 which means it does not explain the variation in sales.
+
+Bar graph of segment based on Region
+```{r}
+ggplot(data = sales_subset, aes(x = Segment,  fill = Region)) + geom_bar(position = "dodge") + labs(title = "Bar Plot of Segment based on Region") + ylab("Count") + xlab("Segment")
+```
+
+Observations:
+
+1. The consumer segment products have been sold the most.
+
+2. The Home Office segment has been sold the least.
+
+3. In all the segments, West and East region and West region have sold most number of products.
+s
+
+
+Hypothesis Testing for sales and Category
+
+Null Hypothesis - There is no statistical significance between sales and product category.
+
+Alternate Hypothesis - There is statistical significance between sales and product category.
+
+We are going to perform ANOVA test
+
+```{r}
+z = aov(Sales~Category, data = sales_subset)
+summary(z)
+```
+
+Explanation:
+
+We are going to focus on p-value which is lesser than 0.05 percent. we have to reject null hypothesis and we conclude that there is good statistical significance between sales and category. We go with alternate hypothesis.
+
+
+Bar graph based on Category
+
+```{r}
+ggplot(data = sales_subset, aes(x = Category, y = Sales, fill = Ship.Mode)) + geom_bar(stat = "identity")+ scale_y_continuous(labels = comma) + xlab("Category") + ylab("Sales") + labs(title = "Bar graph of Sales based on Category")
+```
+
+Observations:
+
+1. The highest sales has been performed by Technology category.
+
+2. The lowest sales has been performed by Office supplies category.
+
+3. The technology category touches sale of $800,000.
+
+4. The Furniture and Office Supplies crosses sale of $600,000.
+
+5. For most of the products shipment has been made with standard class.
+
+6. There are less products for which shipment has been made on same day.
+
+
+Regression Testing between sales and Category
+
+```{r}
+sales_subset$Category = as.factor(sales_subset$Category)
+lm_cat_sales = lm(Sales~Category, data = sales_subset)
+summary(lm_cat_sales)
+stargazer(lm_cat_sales, type = "text")
+
+```
+
+Explanation:
+
+1. The residual summary shows distance between data points and fitted line.
+
+2. The intercept is 350.65 and slope for category is -231.27 and 105.75.
+
+3. The p-value is less than 0.05 percent which means there is statistical significance between sales and category.
+
+4. The multiple R-squared is 0.050 which means the category explains 5 percent of variation in sales.
+
+
+
+Hypothesis Testing for sales and State
+
+Null Hypothesis - There is no statistical significance between sales and State.
+
+Alternate Hypothesis - There is statistical significance between sales and State.
+
+We are going to perform ANOVA test
+```{r}
+summary(aov(Sales~State, data = sales_subset))
+```
+Explanation:
+
+We are going to focus on p-value which is far less than 0.05 percent. We have to reject null hypothesis and accept alternate hypothesis. We can conclude that there is good statistical significance between sales and state.
+
+
+
+
+Regression Testing between sales and State
+
+```{r}
+lm_state_sales = lm(Sales~State, data = sales_subset)
+summary(lm_state_sales)
+stargazer(lm_state_sales, type = "text")
+```
+
+Explanation:
+
+1. The residuals are in negative numbers that means, the residual errors are below fitted line.
+
+2. The intercept is 319.847.
+
+3. There are couple of states which have statistical significance with sales. There are majority of variables which don't have relationship with sales.
+
+4. The multiple r-squared error is just 0.00905 which means these states explain only 0.9 percent variation in sales.
+
+
+
+Creating Dummy variables for categorical variables to build linear model
+
+Treatment for Ship.Mode variable by creating dummy variables
+
+```{r}
+sales_subset = sales_subset %>% mutate(Ship_sameday = as.numeric(Ship.Mode == "Same Day"),
+                                       Ship_Secondclass = as.numeric(Ship.Mode == "Second Class"),
+                                       Ship_Standarclass = as.numeric(Ship.Mode == "Standard Class")) %>%
+  select(-Ship.Mode)
+```
+
+We am creating dummy variables for all sub-categories in categorical variables.
+
+Treatment for State variable by creating dummy variables
+
+```{r}
+sales_subset = sales_subset %>% mutate(Arizona_st = as.numeric(State == "Arizona"),
+                                       Illinois_st = as.numeric(State == "Illinois"),
+                                       Ohio_st = as.numeric(State == "Ohio"),
+                                       Oregon_st = as.numeric(State == "Oregon"),
+                                       Tennessee_st = as.numeric(State == "Tennessee"),
+                                       Texas_st = as.numeric(State == "Texas"),
+                                       Wyoming_st = as.numeric(State == "Wyoming"),
+                                       Colorado_st = as.numeric(State == "Colorado"),
+                                       Connecticut = as.numeric(State == "Connecticut"),
+                                       New_Mexico_st = as.numeric(State == "New Mexico"),
+                                       Pennsylvania_st = as.numeric(State == "Pennsylvania")) %>%
+  select(-State)
+```
+
+We am creating dummy variables of states which have significant relationship with sales based on p-value
+
+Treatment for Region variable by creating dummy variables
+
+```{r}
+sales_subset = sales_subset %>% mutate(Central_reg = as.numeric(Region == "Central"),
+                                       East_reg = as.numeric(Region == "East"),
+                                       South_reg = as.numeric(Region == "South"),
+                                       West_reg = as.numeric(Region == "West")) %>%
+  select(-Region)
+```
+
+
+Treatment for Segment variable
+
+```{r}
+sales_subset = sales_subset %>% mutate(Consumer_seg = as.numeric(Segment == "Consumer"),
+                                       Corporate_seg = as.numeric(Segment == "Corporate"),
+                                       HomeOffice_seg = as.numeric(Segment == "Home Office")) %>%
+  select(-Segment)
+```
+
+Treatment for Category variable
+
+```{r}
+sales_subset = sales_subset %>% mutate(Office_supplies_cat = as.numeric(Category == "Office Supplies"),
+                                       Technology_cat = as.numeric(Category == "Technology"),
+                                       Furniture_cat = as.numeric(Category == "Furniture")) %>%
+  select(-Category)
+```
+
+We have created dummy variables for category based on p-values.
+
+Treatment for sub.category variables
+
+```{r}
+sales_subset  = sales_subset %>% mutate(Art_cat = as.numeric(Sub.Category == "Art"),
+                                        Binders_cat = as.numeric(Sub.Category == "Binders"),
+                                        Bookcases_cat = as.numeric(Sub.Category == "Bookcases"),
+                                        Chairs_cat = as.numeric(Sub.Category == "Chairs"),
+                                        Copiers_cat = as.numeric(Sub.Category == "Copiers"),
+                                        Envelopes_cat = as.numeric(Sub.Category == "Envelopes"),
+                                        Fasteners_cat = as.numeric(Sub.Category == "Fasteners"),
+                                        Furnishings_cat = as.numeric(Sub.Category == "Furnishings"),
+                                        Labels_cat = as.numeric(Sub.Category == "Labels"),
+                                        Machines_cat = as.numeric(Sub.Category == "Machines"),
+                                        Paper_cat = as.numeric(Sub.Category == "Paper"),
+                                        Phones_cat = as.numeric(Sub.Category == "Phones"),
+                                        Storage_cat = as.numeric(Sub.Category == "Storage"),
+                                        Tables_cat = as.numeric(Sub.Category == "Tables")) %>%
+  select(-Sub.Category)
+```
+
+We are creating dummy variables for sub.category and dropping few categories based on p-value.
+
+
+Treatment for Country variable
+```{r}
+sales_subset = sales_subset %>% mutate(USA = as.numeric(Country == "United States")) %>%
+  select(-Country)
+```
+
+
+Treatment for City variable
+```{r}
+sales_subset = sales_subset %>% select(-City)
+```
+
+We have deleted City column because they have high p-values which means they don't show relationship with sales
+
+
+
+Splitting the data into training data and testing data
+
+We are going split data into training and testing data where training data will be used to train the model and testing data will be used to test the performance and accuracy of the model.
+
+```{r}
+set.seed(3)
+split1 = sample.split(sales_subset, SplitRatio = 0.7)
+
+train = subset(sales_subset, split1 == "TRUE")
+test = subset(sales_subset, split1 == "FALSE")
+```
+
+We are going to build linear regression model. Our dependent or response variable is sales and we have around 40 independent variables which can also be called as predictor variables. After building the linear model using training data, we will test it on testing data.
+
+Linear Regression Model
+```{r}
+lm1 = lm(Sales~., data = train)
+summary(lm1)
+```
+In above model, we have high P-values. We are going to remove those values and again build the model.
+
+Linear Regression Model 2
+```{r}
+lm2 = lm(Sales~. -Ship_Secondclass-Ship_sameday-Ship_Standarclass-Arizona_st-Ohio_st-Oregon_st
+         -Tennessee_st-Colorado_st-Connecticut-New_Mexico_st-Central_reg-East_reg-South_reg
+         -West_reg-Consumer_seg-Corporate_seg-HomeOffice_seg-Furniture_cat-Binders_cat-Envelopes_cat
+         -Fasteners_cat-Labels_cat-Storage_cat-Tables_cat-USA, data = train)
+summary(lm2)
+```
+Explanation:
+
+1. After removing values which had p-values, we have around around 16 variables which shows good relationship with the sales.
+
+2. These variables are going to help us predict sales on testing data.
+
+3. We have got multiple R-squared as 0.63 which means theses variables will explain 63 percent variation in sales.
+
+4. The residuals are showing both negative and positive values which means the data points lie both below and above the fitted line.
+
+5. The intercept is 251.26 which means it is the expected average value of dependent variable(sales) or response variables when predictor variables are equal to zero.
+
+
+Now, we are going to predict sales in testing data using linear model we just created.
+
+Prediction of sales in testing data
+```{r}
+pred = predict(lm2,test)
+pred
+```
+The above values are predicted sales on testing data.Now we are going to compare between predicted and actual values in testing data.
+
+Graph of predicted values and actual values
+```{r}
+plot(test$Sales,type = "l", lty = 1.8, col = "blue")
+lines(pred, type = "l",lty = 1.8, col = "red")
+```
+Observations:
+
+1. The blue line represents the actual value of sales and red line represents predicted values of sales.
+
+2. We think our predictions have come up well when seeing actual sales.
+
+
+Now, we will find the accuracy of our model on testing data using root mean squared error
+
+Finding accuracy
+```{r}
+rmse = sqrt(mean(pred-test$Sales)^2)
+rmse
+```
+Explanation:
+
+1. We get root mean squared error of 0.444324.
+
+2. We are close to actual value of sales.
+
+3. The difference is close to zero.
+
+
+```{r}
+sum(test$Sales-pred)
+```
+Explanation:
+
+1. We have taken difference between total sum in actual sales and predicted sales.
+
+2. The difference comes to $1380.
+
+
+
+<P><BR>
+<FONT SIZE = 4, COLOR = <"#A11515"></B>
+CONCLUSION
+</B></FONT>
+
+1. Correlation test can be used to test correlation between two numerical variables. It is good indication to show relationship between two numerical variables.
+
+2. Regression is a parameter to represent how one variable affects another variable.
+
+3. ANOVA Test can be used to represent relationship between numerical and categorical variable.
+
+4. Chi-square test can be used to determine relationship between two categorical variables.
+
+5. Linear regression can be used to predict any continuous numerical variable.
+
+6. The values which have p-value above 0.05 percent do not show significance with dependent variables.
+
+7. The multiple R-squared explains variation in dependent variable.
+
+8. The Root mean squared error is the standard deviation of residuals(prediction errors). It tells how concentrated the data is around the line of best fit.
+
+
+
+
+
+
+
